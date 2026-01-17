@@ -41,18 +41,18 @@ export default function Step2Page() {
   const classLevel = (data.classLevel ?? "10") as "9" | "10" | "11" | "12";
   const subjectOptions = SUBJECTS_BY_CLASS[classLevel] || [];
 
-  const form = useForm<Step2Output>({
+  const form = useForm<Step2FormValues, any, Step2Output>({
     resolver: zodResolver(step2Schema),
     mode: "onTouched",
     defaultValues: {
-      classLevel, 
+      classLevel,
       subjects: data.subjects ?? [],
       examGoal: ["Board Excellence", "Concept Mastery", "Competitive Prep"].includes(data.examGoal as string)
-        ? (data.examGoal as Step2Output["examGoal"])
+        ? (data.examGoal as Step2FormValues["examGoal"])
         : undefined,
       weeklyStudyHours: data.weeklyStudyHours ?? 10,
       scholarship: data.scholarship ?? false,
-      lastExamPercentage: data.lastExamPercentage,
+      lastExamPercentage: data.lastExamPercentage ?? undefined,
       achievements: data.achievements ?? "",
     },
   });
@@ -77,7 +77,7 @@ export default function Step2Page() {
   // ✅ Updated onSubmit with explicit data type for 'values'
   const onSubmit = (values: Step2Output) => {
     // values is now Step2Output, ensuring weeklyStudyHours is number | undefined
-    update(values); 
+    update(values);
     router.push("/enroll/step-3");
   };
 
@@ -173,12 +173,12 @@ export default function Step2Page() {
                       onChange={(e) => {
                         const val = e.target.value;
                         setValue(
-                          "lastExamPercentage", 
-                          val === "" ? undefined : Number(val), 
+                          "lastExamPercentage",
+                          val === "" ? undefined : Number(val),
                           { shouldValidate: true }
                         );
                       }}
-                     value={(watch("lastExamPercentage") as number | undefined) ?? ""}
+                      value={(watch("lastExamPercentage") as number | undefined) ?? ""}
                     />
                     {errors.lastExamPercentage && (
                       <p className="text-sm text-red-600">{errors.lastExamPercentage.message}</p>

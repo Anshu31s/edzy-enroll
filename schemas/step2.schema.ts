@@ -20,7 +20,7 @@ export const step2Schema = z
     lastExamPercentage: z.preprocess(
       (v) => (v === "" || v === undefined || v === null ? undefined : Number(v)),
       z.number().min(0, "Min 0").max(100, "Max 100").optional()
-    ),
+    ).optional(),
 
     achievements: z.string().max(300, "Max 300 characters").optional(),
   })
