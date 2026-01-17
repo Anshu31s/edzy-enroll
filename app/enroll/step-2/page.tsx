@@ -74,7 +74,7 @@ export default function Step2Page() {
   const currentSubjects = watch("subjects") ?? [];
   const currentExamGoal = watch("examGoal");
 
-  // ✅ Updated onSubmit with explicit data type for 'values'
+  //  Updated onSubmit with explicit data type for 'values'
   const onSubmit = (values: Step2Output) => {
     // values is now Step2Output, ensuring weeklyStudyHours is number | undefined
     update(values);
